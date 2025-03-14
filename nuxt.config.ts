@@ -1,5 +1,21 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
-  devtools: { enabled: true }
-})
+  // Versiones de compatibilidad con el nuxt 3
+  compatibilityDate: "2024-11-01",
+  devtools: { enabled: true },
+  // CSS Global
+  css: ["~/assets/css/main.css"],
+  // Modulos de funciones anadidas
+  modules: ["@nuxt/ui"],
+  // Preferencia de color del sistema
+  colorMode: {
+    preference: "system",
+  },
+  // Importacion de componentes globales
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
+    },
+  ],
+});
