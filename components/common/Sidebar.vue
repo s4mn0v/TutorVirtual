@@ -18,7 +18,7 @@
                 <UIcon :name="link.icon" size="20" class="mr-3 text-gray-700 dark:text-gray-300" />
                 {{ link.label }}
               </span>
-              <UIcon name="mdi:chevron-down" size="20" :class="dropdowns[index] ? 'rotate-180' : ''"
+              <UIcon name="heroicons:chevron-down" size="20" :class="dropdowns[index] ? 'rotate-180' : ''"
                 class="text-gray-700 dark:text-gray-300" />
             </button>
             <div v-show="dropdowns[index]" class="pl-6 space-y-1">

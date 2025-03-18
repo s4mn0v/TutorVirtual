@@ -8,8 +8,9 @@
   import CommonSidebar from '@/components/common/Sidebar.vue';
   
   const teacherLinks = [
-    { to: '/teacher/', label: 'Noticias', icon: 'mdi:rss' },
-    { to: '/teacher/subjects', label: 'Asignaturas', icon: 'mdi:book-open-variant-outline' },
-    { to: '/teacher/statistics', label: 'Estadisticas', icon: 'mdi:graph-line' },
+    { to: '/teacher/', label: 'Noticias', icon: 'heroicons-outline:newspaper' },
+    { to: '/teacher/subjects', label: 'Asignaturas', icon: 'heroicons-outline:book-open' },
+    { to: '/teacher/statistics', label: 'Estadisticas', icon: 'heroicons-outline:chart-bar' },
   ];
   </script>
+  

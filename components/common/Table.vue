@@ -54,16 +54,17 @@ function getDropdownActions(user: User): DropdownMenuItem[][] {
     [
       {
         label: 'Copy user ID',
-        icon: 'i-lucide-copy',
+        icon: 'heroicons-outline:document-duplicate',
         onSelect: () => {
           navigator.clipboard.writeText(user.id.toString())
-          toast.add({ title: 'User ID copied!', color: 'success', icon: 'i-lucide-circle-check' })
+          toast.add({ title: 'User ID copied!', color: 'success', icon: 'heroicons-outline:check-circle' });
         }
       }
     ],
     [
-      { label: 'Edit', icon: 'i-lucide-edit' },
-      { label: 'Delete', icon: 'i-lucide-trash', color: 'error' }
+    { label: 'Edit', icon: 'heroicons-outline:pencil' },
+    { label: 'Delete', icon: 'heroicons-outline:trash', color: 'error' }
+
     ]
   ]
 }
@@ -92,7 +93,7 @@ const rowSelection = ref<Record<string, boolean>>({})
       </template>
       <template #action-cell="{ row }">
         <UDropdownMenu :items="getDropdownActions(row.original)">
-          <UButton icon="i-lucide-ellipsis-vertical" color="neutral" variant="ghost" />
+          <UButton icon="heroicons-outline:ellipsis-vertical" color="neutral" variant="ghost" />
         </UDropdownMenu>
       </template>
     </UTable>

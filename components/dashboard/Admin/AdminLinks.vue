@@ -8,10 +8,9 @@
 import CommonSidebar from '@/components/common/Sidebar.vue';
 
 const adminLinks = [
-  { to: '/admin', label: 'Noticias', icon: 'mdi:newspaper-check' },
-  { to: '/admin/teachers', label: 'Docentes', icon: 'mdi:teach-poll' },
-  { to: '/admin/students', label: 'Estudiantes', icon: 'mdi:account-student' },
-  { to: '/admin/statistics', label: 'Estadísticas', icon: 'mdi:graph-line' },
-
-  ];
- </script>
+  { to: '/admin', label: 'Noticias', icon: 'heroicons-outline:newspaper' },
+  { to: '/admin/teachers', label: 'Docentes', icon: 'heroicons-outline:academic-cap' },
+  { to: '/admin/students', label: 'Estudiantes', icon: 'heroicons-outline:user-group' },
+  { to: '/admin/statistics', label: 'Estadísticas', icon: 'heroicons-outline:chart-bar' },
+];
+</script>
