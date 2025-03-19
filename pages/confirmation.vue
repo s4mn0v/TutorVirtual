@@ -41,7 +41,7 @@ async function verifyUser() {
       if (profileError) throw profileError;
     }
 
-    router.push('/dashboard');
+    router.push('/login');
   } catch (error) {
     errorMsg.value = error.message || 'Error al confirmar la cuenta';
     console.error('Error en confirmación:', error);
