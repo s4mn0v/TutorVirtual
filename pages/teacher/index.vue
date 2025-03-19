@@ -7,6 +7,8 @@
   
   <script setup>
   definePageMeta({
-    layout: 'teacher'
+    layout: 'teacher',
+    middleware: "role",
+    roles: ["teacher"]
   })
   </script>

@@ -104,7 +104,7 @@ const rowSelection = ref<Record<string, boolean>>({})
 
     <div class="flex justify-center border-t border-(--ui-border) pt-4">
       <UPagination :default-page="pagination.pageIndex + 1" :items-per-page="pagination.pageSize" :total="data.length"
-        @update:page="(p) => (pagination.pageIndex = p - 1)" />
+        @update:page="() => (pagination.pageIndex = - 1)" />
     </div>
   </div>
 </template>
