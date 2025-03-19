@@ -1,13 +1,13 @@
+<script setup lang="ts">
+definePageMeta({
+  middleware: "role",
+  roles: ["admin"], // Solo superadmin puede acceder
+  layout: "admin"
+});
+</script>
+
 <template>
-    <h1>Noticias</h1>
-  
-
-  </template>
-  
-  
-  <script setup lang="ts">
-  definePageMeta({
-    layout: 'admin'
-  })
-
-  </script>
+  <div>
+    <h1>Panel de admin</h1>
+  </div>
+</template>

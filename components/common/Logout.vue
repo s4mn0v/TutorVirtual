@@ -1,21 +1,17 @@
 <template>
-  <UButton
-    class="cursor-pointer"
-    icon="i-heroicons-arrow-left-circle"
-    size="md"
-    color="red"
-    :ui="{ rounded: 'rounded-full' }"
-    variant="solid"
-    @click="logout"
-  />
+  <ClientOnly>
+    <UButton class="cursor-pointer text-white" icon="i-heroicons-arrow-left-circle" size="md" color="error"
+      :ui="{ rounded: 'rounded-full' }" variant="solid" @click="logout" 
+      />
+  </ClientOnly>
 </template>
 
 <script setup>
-// Importar la función de navegación de Nuxt
-const router = useRouter();
+import { useSupabaseClient } from '#imports';
+const supabase = useSupabaseClient();
 
-// Función para redirigir al usuario a la página de inicio de sesión
-const logout = () => {
-  router.push('/'); // Redirige al usuario a la página de inicio (index.vue)
+const logout = async () => {
+  await supabase.auth.signOut();
+  return Promise.resolve(navigateTo("/login")); // Redirigir al login
 };
 </script>

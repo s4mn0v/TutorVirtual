@@ -23,4 +23,9 @@ export default defineNuxtConfig({
     key: process.env.NUXT_SUPABASE_KEY,
     redirect: false,
   },
+  runtimeConfig: {
+    public: {
+      NEWS_API_KEY: process.env.NEWS_API_KEY,
+    },
+  },
 });

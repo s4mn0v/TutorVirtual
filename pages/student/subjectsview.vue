@@ -4,10 +4,8 @@
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-bold">Mis Asignaturas</h1>
       <!-- Botón para agregar asignatura -->
-      <button
-        @click="isModalOpen = true"
-        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-      >
+      <button @click="isModalOpen = true"
+        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
         + Agregar Asignatura
       </button>
     </div>
@@ -16,23 +14,15 @@
     <div v-if="isModalOpen" class="fixed inset-0 backdrop-blur-sm flex items-center justify-center">
       <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
         <h2 class="text-xl font-bold mb-4">Insertar Código</h2>
-        <input
-          v-model="newSubjectCode"
-          type="text"
-          placeholder="Código de la materia"
-          class="w-full p-2 border border-gray-300 rounded-lg mb-4 dark:bg-gray-700 dark:text-white"
-        />
+        <input v-model="newSubjectCode" type="text" placeholder="Código de la materia"
+          class="w-full p-2 border border-gray-300 rounded-lg mb-4 dark:bg-gray-700 dark:text-white" />
         <div class="flex justify-end">
-          <button
-            @click="registerSubject"
-            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
+          <button @click="registerSubject"
+            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
             Registrar
           </button>
-          <button
-            @click="isModalOpen = false"
-            class="ml-2 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
-          >
+          <button @click="isModalOpen = false"
+            class="ml-2 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors">
             Cancelar
           </button>
         </div>
@@ -49,6 +39,8 @@ import { ref } from 'vue';
 
 definePageMeta({
   layout: 'studentwaiting',
+  middleware: "role",
+  roles: ["student"],
 });
 
 // Lista de asignaturas (vacía inicialmente)

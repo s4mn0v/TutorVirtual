@@ -5,6 +5,8 @@
 
 <script setup lang="ts">
 definePageMeta({
-    layout: 'superadmin'
+    layout: 'superadmin',
+    middleware: "role",
+    roles: ["superadmin"],
 })
 </script>

@@ -6,6 +6,8 @@
 
 <script setup>
 definePageMeta({
-  layout: 'studentoverview'
+  layout: 'studentoverview',
+  middleware: "role",
+  roles: ["student"],
 })
 </script>

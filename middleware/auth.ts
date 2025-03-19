@@ -1,5 +1,5 @@
 import { defineNuxtRouteMiddleware, navigateTo } from "#app";
-import { useSupabaseClient, useSupabaseUser } from "#imports";
+import { useSupabaseUser } from "#imports";
 
 export default defineNuxtRouteMiddleware(() => {
   const user = useSupabaseUser();

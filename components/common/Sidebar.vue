@@ -49,7 +49,7 @@
             <p class="text-xs text-gray-400 dark:text-gray-500">Carrera O Rol</p>
           </div>
           <Theme />
-          <LogoutButton class="bg-red-500 text-white" />
+          <LogoutButton />
         </div>
       </div>
     </aside>
