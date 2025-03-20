@@ -28,7 +28,7 @@ const email = ref('');
 const password = ref('');
 const errorMsg = ref('');
 const mounted = ref(false);
-const loading = ref(false); // Estado de carga
+const loading = ref(false);
 
 onMounted(() => {
   mounted.value = true;
@@ -50,7 +50,6 @@ async function register() {
     if (authError) throw authError;
 
     alert("Revisa tu correo para confirmar tu cuenta.");
-    // Redirigir a una página de verificación, no a /confirmation
     await navigateTo('/check-email');
 
   } catch (error: any) {
@@ -60,5 +59,4 @@ async function register() {
     loading.value = false;
   }
 }
-
 </script>

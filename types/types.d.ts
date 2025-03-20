@@ -7,35 +7,84 @@ declare global {
     completed: boolean;
   }
 
-  interface Profile {
-    role: "superadmin" | "admin" | "teacher" | "student";
+  interface Student {
+    id: string;
+    last_name: string;
+    document_id: string;
+    career: string;
+    created_at: string;
+  }
+
+  interface Teacher {
+    id: string;
+    last_name: string;
+    document_id: string;
+    department: string;
+    created_at: string;
+  }
+
+  interface Admin {
+    id: string;
+    last_name: string;
+    document_id: string;
+    created_at: string;
   }
 
   interface Database {
     public: {
       Tables: {
-        profiles: {
-          Row: ProfileRole;
+        students: {
+          Row: Student;
           Insert: {
             id: string;
-            role: string;
+            last_name: string;
+            document_id: string;
+            career: string;
             created_at: string;
           };
           Update: Partial<{
             id: string;
-            role: string;
+            last_name: string;
+            document_id: string;
+            career: string;
             created_at: string;
           }>;
         };
-        // other tables...
+        teachers: {
+          Row: Teacher;
+          Insert: {
+            id: string;
+            last_name: string;
+            document_id: string;
+            department: string;
+            created_at: string;
+          };
+          Update: Partial<{
+            id: string;
+            last_name: string;
+            document_id: string;
+            department: string;
+            created_at: string;
+          }>;
+        };
+        admins: {
+          Row: Admin;
+          Insert: {
+            id: string;
+            last_name: string;
+            document_id: string;
+            created_at: string;
+          };
+          Update: Partial<{
+            id: string;
+            last_name: string;
+            document_id: string;
+            created_at: string;
+          }>;
+        };
       };
     };
   }
-
-  interface ProfileRole {
-    role: string;
-  }
 }
 
-// Indica a TypeScript que este archivo es un módulo
 export {};

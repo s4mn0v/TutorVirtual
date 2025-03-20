@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useSupabaseClient } from "#imports";
+import { useSupabaseClient, useRouter } from "#imports";
 
 definePageMeta({ ssr: false });
 
 const supabase = useSupabaseClient();
+const router = useRouter();
 const email = ref("");
 const password = ref("");
 const errorMsg = ref("");
@@ -16,6 +17,7 @@ onMounted(() => {
 async function login(event?: Event) {
   errorMsg.value = "";
 
+  // Iniciar sesión con Supabase
   const { error } = await supabase.auth.signInWithPassword({
     email: email.value,
     password: password.value,
@@ -26,36 +28,38 @@ async function login(event?: Event) {
     return;
   }
 
-  const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) return;
+  // Obtener usuario autenticado
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData.user) {
+    errorMsg.value = "Error obteniendo el usuario.";
+    return;
+  }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", userData.user.id)
-    .single<Profile>();
+  const userId = userData.user.id;
 
-  if (profile) {
-    switch (profile.role) {
-      case "superadmin":
-        await navigateTo("/superadmin");
-        break;
-      case "admin":
-        await navigateTo("/admin");
-        break;
-      case "teacher":
-        await navigateTo("/teacher");
-        break;
-      case "student":
-        await navigateTo("/student");
-        break;
-      default:
-        await navigateTo("/login");
-        break;
-    }
+  // Consultar las tablas de roles (usamos .maybeSingle() para evitar errores si no hay datos)
+  const { data: student } = await supabase.from("students").select("id").eq("id", userId).maybeSingle();
+  const { data: teacher } = await supabase.from("teachers").select("id").eq("id", userId).maybeSingle();
+  const { data: admin } = await supabase.from("admins").select("id").eq("id", userId).maybeSingle();
+  const { data: superadmin } = await supabase.from("superadmins").select("id").eq("id", userId).maybeSingle();
+
+  // Redirigir según el rol encontrado
+  if (student) {
+    router.push("/student");
+  } else if (teacher) {
+    router.push("/teacher");
+  } else if (admin) {
+    router.push("/admin");
+  } else if (superadmin) {
+    router.push("/superadmin");
+  } else {
+    errorMsg.value = "No tienes un rol asignado.";
   }
 }
+
+
 </script>
+
 
 <template>
   <ClientOnly>

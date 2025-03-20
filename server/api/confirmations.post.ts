@@ -1,31 +1,43 @@
-// server/api/confirmations.post.ts
 import { serverSupabaseClient } from "#supabase/server";
 
 export default defineEventHandler(async (event) => {
-  const supabase = await serverSupabaseClient<Database>(event); // Await the promise
+  const supabase = await serverSupabaseClient<Database>(event);
+  const body = await readBody(event); // Obtener datos enviados desde el frontend
 
   try {
-    // Obtain authenticated user
+    // Obtener usuario autenticado
     const {
       data: { user },
       error: userError,
     } = await supabase.auth.getUser();
+
     if (userError) throw userError;
     if (!user)
       throw createError({ statusCode: 401, message: "Not authenticated" });
 
-    // Check for profile existence
-    const { data: profile, error: profileError } = await supabase
-      .from("profiles")
+    // Validar que se envíen los datos del estudiante
+    const { last_name, document_id, career } = body;
+    if (!last_name || !document_id || !career) {
+      throw createError({
+        statusCode: 400,
+        message: "Faltan datos del estudiante",
+      });
+    }
+
+    // Verificar si el usuario ya existe en la tabla de estudiantes
+    const { data: existingStudent } = await supabase
+      .from("students")
       .select("id")
       .eq("id", user.id)
       .single();
 
-    if (!profile) {
-      const { error: insertError } = await supabase.from("profiles").insert([
+    if (!existingStudent) {
+      const { error: insertError } = await supabase.from("students").insert([
         {
           id: user.id,
-          role: "student",
+          last_name,
+          document_id,
+          career,
           created_at: new Date().toISOString(),
         },
       ]);
@@ -35,11 +47,10 @@ export default defineEventHandler(async (event) => {
 
     return { success: true };
   } catch (error) {
-    const errorMessage =
-      (error as { message?: string }).message || "Confirmation error";
     return createError({
       statusCode: (error as { statusCode?: number }).statusCode || 500,
-      statusMessage: errorMessage,
+      statusMessage:
+        (error as { message?: string }).message || "Error en la confirmación",
     });
   }
 });
