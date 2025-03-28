@@ -9,10 +9,10 @@ declare global {
 
   interface Student {
     id: string;
+    name: string;
     last_name: string;
     document_id: string;
     career: string;
-    created_at: string;
   }
 
   interface Teacher {
