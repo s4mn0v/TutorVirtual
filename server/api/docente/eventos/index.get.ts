@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
         userId: number;
         role: Rol;
       };
+      console.log("API /eventos - Decoded Token:", decodedToken);
     } catch (error) {
       throw createError({
         statusCode: 401,

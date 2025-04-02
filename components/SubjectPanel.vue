@@ -1,42 +1,67 @@
 <template>
-  <div class="bg-transparent p-4 sm:p-6">
+  <div class="bg-transparent sm:p-6">
     <UContainer>
       <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0">
         <h2 class="text-2xl font-bold text-blue-600">Asignaturas</h2>
-        <UButton color="blue" @click="showCreateModal = true" icon="i-heroicons-plus">
+        <UButton color="green" @click="showCreateModal = true" icon="i-heroicons-plus">
           Crear Asignatura
         </UButton>
       </div>
 
       <div v-if="asignaturas.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <UCard v-for="asignatura in asignaturas" :key="asignatura.id"
-          class="bg-white/80 dark:bg-gray-800/80 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+          class="bg-white/80 dark:bg-gray-800/80 hover:shadow-lg transition-shadow duration-300 cursor-pointer max-h-[20rem] overflow-y-auto"
           @click="navigateToAsignatura(asignatura.id)">
           <template #header>
-            <h3 class="text-lg sm:text-xl font-bold text-center text-blue-600 uppercase">{{ asignatura.nombre }}</h3>
+            <div class="w-full flex justify-between items-center mb-3">
+              <!-- Title -->
+              <h3 class="text-2xl leading-snug font-bold text-gray-50 truncate mb-1 sm:mb-0 uppercase tracking-wider">{{
+                asignatura.nombre }}</h3>
+              <!-- Like and comment buttons -->
+              <div class="flex-shrink-0 flex items-center space-x-3 sm:ml-2">
+                <p class="dark:text-white">{{ asignatura.carrera }}</p>
+              </div>
+            </div>
           </template>
-          <div class="p-4">
-            <p class="text-sm text-gray-600 dark:text-gray-300"><strong>Carrera:</strong> {{ asignatura.carrera }}</p>
-            <p class="text-sm text-gray-600 dark:text-gray-300"><strong>Jornada:</strong> {{ asignatura.jornada }}</p>
-            <p class="text-sm text-gray-600 dark:text-gray-300"><strong>Inscritos:</strong> {{
-              asignatura.estudiantes?.length || 0
-            }}</p>
-            <p v-if="asignatura.enlaceRegistro" class="text-sm text-gray-600 dark:text-gray-300 mt-2">
-              <strong>Enlace de registro:</strong>
-              <UBadge color="blue" class="ml-2 cursor-pointer" @click.stop="copyLink(asignatura.enlaceRegistro)">
-                Copiar enlace
-              </UBadge>
-            </p>
-            <p class="text-sm text-gray-600 dark:text-gray-300">
-              <strong>Expira:</strong> {{ formatDate(asignatura.fechaExpiracion) }}
-            </p>
+          <div class="-m-[0.1rem] -mt-3">
+            <div class="space-y-2">
+              <div class="sm:flex items-center justify-between">
+                <p class="text-gray-600 dark:text-gray-300 flex items-center space-x-2">
+                  <UIcon v-if="asignatura.jornada === 'Diurna'" name="i-heroicons-sun"
+                    class="text-yellow-500 w-5 h-5 align-middle" />
+                  <UIcon v-if="asignatura.jornada === 'Nocturna'" name="i-heroicons-moon"
+                    class="text-blue-500 w-5 h-5 align-middle" />
+                  <strong>Jornada:</strong>
+                  <span class="align-middle">{{ asignatura.jornada }}</span>
+                </p>
+
+                <p class="text-sm text-gray-600 dark:text-gray-300 space-x-2">
+                  <UIcon name="i-heroicons-user-group" class="text-green-500 w-5 h-5 align-middle" />
+                  <strong>Inscritos:</strong> {{
+                    asignatura.estudiantes?.length || 0
+                  }}
+                </p>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-300  space-x-2">
+                <UIcon name="i-heroicons-calendar" class="text-red-500 w-5 h-5 align-middle" />
+                <strong>Expira:</strong> {{ formatDate(asignatura.fechaExpiracion) }}
+              </p>
+              <p v-if="asignatura.enlaceRegistro" class="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                <strong>Enlace de registro:</strong>
+                <UBadge color="blue" class="ml-2 cursor-pointer" @click.stop="copyLink(asignatura.enlaceRegistro)">
+                  Copiar enlace
+                </UBadge>
+              </p>
+            </div>
           </div>
           <template #footer>
             <div class="flex justify-between items-center">
-              <UButton @click.stop="generateLink(asignatura.id)" color="blue" size="sm">
+              <UButton @click.stop="generateLink(asignatura.id)" color="green" size="sm">
+                <UIcon name="i-heroicons-link" />
                 Generar Enlace
               </UButton>
               <UButton @click.stop="deleteSubject(asignatura.id)" color="red" size="sm">
+                <UIcon name="i-heroicons-trash" />
                 Eliminar
               </UButton>
             </div>

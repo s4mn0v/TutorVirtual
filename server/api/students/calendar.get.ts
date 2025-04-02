@@ -7,7 +7,6 @@ const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
   try {
-    // 1. Obtener el token de la cabecera de autorización
     const authHeader = getRequestHeader(event, "authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       throw createError({
@@ -16,11 +15,8 @@ export default defineEventHandler(async (event) => {
       });
     }
     const token = authHeader.split(" ")[1];
+    const secret = process.env.JWT_SECRET || "fallback_secret"; // Usa fallback si no está definida
 
-    // Usar un fallback si no se define JWT_SECRET
-    const secret = process.env.JWT_SECRET || "fallback_secret";
-
-    // 2. Decodificar el token para obtener el ID del estudiante
     let decodedToken: any;
     try {
       decodedToken = jwt.verify(token, secret);
@@ -31,7 +27,6 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    // 3. Buscar al estudiante correspondiente usando el ID obtenido del token
     const estudiante = await prisma.estudiante.findUnique({
       where: { id: decodedToken.userId },
       include: {
@@ -46,6 +41,7 @@ export default defineEventHandler(async (event) => {
                 titulo: true,
                 descripcion: true,
                 fecha: true,
+                importancia: true, // <--- AÑADIR ESTA LÍNEA
                 asignatura: {
                   select: {
                     id: true,
@@ -59,26 +55,27 @@ export default defineEventHandler(async (event) => {
       },
     });
 
-    if (!estudiante) {
+    if (!estudiante || !estudiante.asignatura) {
+      // Verificar también asignatura
+      // Si no hay estudiante o no está asignado a ninguna asignatura, devolver vacío
       return {
         eventos: [],
         asignaturas: [],
       };
     }
 
-    // Transformar los recordatorios al formato esperado
     const eventos = estudiante.asignatura.recordatorios.map((recordatorio) => ({
       id: recordatorio.id,
       title: recordatorio.titulo,
       date: recordatorio.fecha.toISOString(),
       description: recordatorio.descripcion,
+      importancia: recordatorio.importancia, // <--- AÑADIR ESTA LÍNEA
       asignatura: {
         id: recordatorio.asignatura.id,
         nombre: recordatorio.asignatura.nombre,
       },
     }));
 
-    // Obtener la asignatura a la que está registrado el estudiante
     const asignaturas = [
       {
         id: estudiante.asignatura.id,
@@ -92,10 +89,14 @@ export default defineEventHandler(async (event) => {
     };
   } catch (error) {
     console.error("Error al obtener eventos del calendario:", error);
+    // Devuelve un error estandarizado para que el frontend pueda manejarlo
     throw createError({
       statusCode: 500,
-      message: "Error al obtener los eventos del calendario",
-      cause: error,
+      message:
+        "Error interno del servidor al obtener los eventos del calendario.",
+      data: error instanceof Error ? error.message : String(error), // Opcional: enviar mensaje de error original en desarrollo
     });
+  } finally {
+    await prisma.$disconnect(); // Asegurar desconexión de Prisma
   }
 });

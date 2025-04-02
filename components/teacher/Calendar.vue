@@ -9,35 +9,33 @@
               {{ currentMonthName }} {{ currentYear }}
             </h2>
             <div class="flex space-x-2">
-              <button @click="previousMonth" class="p-2 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-900 transition-colors">
+              <button @click="previousMonth"
+                class="p-2 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-900 transition-colors">
                 <i class="i-heroicons-chevron-left-20-solid w-5 h-5 text-gray-600 dark:text-gray-300"></i>
               </button>
-              <button @click="nextMonth" class="p-2 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+              <button @click="nextMonth"
+                class="p-2 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
                 <i class="i-heroicons-chevron-right-20-solid w-5 h-5 text-gray-600 dark:text-gray-300"></i>
               </button>
             </div>
           </div>
 
           <div class="grid grid-cols-7 gap-1 mb-2">
-            <div v-for="day in daysOfWeek" :key="day" class="text-center font-semibold text-gray-600 dark:text-gray-400 text-xs lg:text-sm">
+            <div v-for="day in daysOfWeek" :key="day"
+              class="text-center font-semibold text-gray-600 dark:text-gray-400 text-xs lg:text-sm">
               {{ day }}
             </div>
           </div>
 
           <div class="grid grid-cols-7 gap-1">
-            <button
-              v-for="{ date, isCurrentMonth, isToday } in calendarDays"
-              :key="date.toISOString()"
-              @click="selectDate(date)"
-              :class="[
+            <button v-for="{ date, isCurrentMonth, isToday } in calendarDays" :key="date.toISOString()"
+              @click="selectDate(date)" :class="[
                 'p-1 w-full aspect-square rounded-lg text-center transition-colors text-xs lg:text-sm',
                 isCurrentMonth ? 'hover:bg-blue-100 dark:hover:bg-blue-900' : 'text-gray-400 dark:text-gray-600',
                 isToday ? 'bg-blue-200 dark:bg-blue-800 font-bold' : '',
                 isSelected(date) ? 'bg-blue-500 text-white' : '',
                 isFutureDate(date) ? 'cursor-pointer' : 'cursor-not-allowed',
-              ]"
-              :disabled="!isFutureDate(date)"
-            >
+              ]" :disabled="!isFutureDate(date)">
               <span>{{ date.getDate() }}</span>
             </button>
           </div>
@@ -48,19 +46,13 @@
           <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Recordatorios</h3>
           <div class="overflow-y-auto max-h-[calc(100vh-16rem)]">
             <ul v-if="recordatorios.length" class="space-y-2">
-              <li 
-                v-for="reminder in recordatorios" 
-                :key="reminder.id" 
-                :class="[
-                  'p-3 rounded-lg mb-2 relative',
-                  reminderImportanceClass(reminder.importancia)
-                ]"
-              >
-                <button 
-                  @click="deleteReminder(reminder.id)" 
+              <li v-for="reminder in recordatorios" :key="reminder.id" :class="[
+                'p-3 rounded-lg mb-2 relative',
+                reminderImportanceClass(reminder.importancia)
+              ]">
+                <button @click="deleteReminder(reminder.id)"
                   class="absolute top-2 right-2 text-red-500 hover:text-red-700 dark:hover:text-red-400"
-                  aria-label="Eliminar recordatorio"
-                >
+                  aria-label="Eliminar recordatorio">
                   <i class="i-heroicons-trash-20-solid w-5 h-5"></i>
                 </button>
                 <div>
@@ -83,36 +75,75 @@
 
     <!-- Modal de Recordatorio -->
     <UModal v-model="showModal">
-      <div class="bg-white dark:bg-zinc-800 rounded-lg p-6">
-        <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Nuevo Recordatorio</h3>
-        <form @submit.prevent="addReminder" class="space-y-4">
-          <UFormGroup label="Título" name="title">
-            <UInput v-model="newReminder.title" placeholder="Título del recordatorio" required />
-          </UFormGroup>
-          <UFormGroup label="Descripción" name="description">
-            <UTextarea v-model="newReminder.description" placeholder="Descripción del recordatorio" />
-          </UFormGroup>
-          <UFormGroup label="Asignatura" name="asignatura">
-            <USelect v-model="newReminder.asignaturaId" :options="asignaturasOptions" placeholder="Selecciona una asignatura" required />
-          </UFormGroup>
-          <UFormGroup label="Importancia" name="importance">
-            <USelect v-model="newReminder.importance" :options="importanceOptions" placeholder="Selecciona la importancia" required />
-          </UFormGroup>
-          <div class="flex justify-end space-x-2">
-            <UButton color="gray" @click="showModal = false">Cancelar</UButton>
-            <UButton color="primary" type="submit" :loading="isLoading">Guardar</UButton>
+      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+        <!-- Encabezado del Modal -->
+        <template #header>
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+              Crear Nuevo Recordatorio
+            </h3>
+            <!-- Botón de cierre estándar (Nuxt UI lo añade por defecto, pero así se puede personalizar si quieres) -->
+            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
+              @click="showModal = false" />
           </div>
+        </template>
+
+        <!-- Cuerpo del Modal (Formulario) -->
+        <!-- Opcional: Envuelve en UForm para validación avanzada (ver nota abajo) -->
+        <form @submit.prevent="addReminder" class="space-y-4">
+          <UFormGroup label="Título" name="title" required
+            :ui="{ label: { base: 'block text-sm font-medium text-gray-700 dark:text-gray-200' } }">
+            <UInput v-model="newReminder.title" placeholder="Ej: Preparar examen parcial" />
+            <!-- Nota: El 'required' en UFormGroup añade el asterisco visual -->
+          </UFormGroup>
+
+          <UFormGroup label="Descripción" name="description" required
+            :ui="{ label: { base: 'block text-sm font-medium text-gray-700 dark:text-gray-200' } }">
+            <UTextarea v-model="newReminder.description" placeholder="Añade detalles adicionales aquí..." />
+          </UFormGroup>
+
+          <UFormGroup label="Asignatura" name="asignatura" required
+            :ui="{ label: { base: 'block text-sm font-medium text-gray-700 dark:text-gray-200' } }">
+            <USelectMenu v-model="newReminder.asignaturaId" :options="asignaturasOptions" value-attribute="value"
+              option-attribute="label" placeholder="Selecciona una asignatura" searchable
+              searchable-placeholder="Buscar asignatura..." />
+            <!-- Usar USelectMenu mejora la UX para listas potencialmente largas -->
+          </UFormGroup>
+
+          <UFormGroup label="Importancia" name="importance" required class="w-full"
+            :ui="{ label: { base: 'block text-sm font-medium text-gray-700 dark:text-gray-200' } }">
+            <USelect v-model="newReminder.importance" :options="importanceOptions"
+              placeholder="Selecciona la importancia"  class="w-full"
+              :ui="{ base: 'w-full focus:ring-offset-0' }" />
+          </UFormGroup>
+
+          <!-- Nota: La fecha se selecciona desde el calendario, no se necesita input aquí -->
+          <p v-if="selectedDate" class="text-sm text-gray-500 dark:text-gray-400">
+            Fecha seleccionada: {{ formatDate(selectedDate) }}
+          </p>
+
         </form>
-      </div>
+
+        <!-- Pie de página del Modal -->
+        <template #footer>
+          <div class="flex justify-end space-x-3">
+            <UButton color="gray" variant="solid" @click="showModal = false" :disabled="isLoading">Cancelar</UButton>
+            <UButton color="primary" variant="solid" type="submit" :loading="isLoading" @click="addReminder">Guardar
+              Recordatorio</UButton>
+          </div>
+        </template>
+      </UCard>
     </UModal>
 
     <!-- Toast Notification -->
     <div v-if="notification" :class="[
       'fixed bottom-4 right-4 p-4 rounded-lg shadow-lg transition-opacity duration-300',
-      { 'bg-green-500': notification.type === 'success',
+      {
+        'bg-green-500': notification.type === 'success',
         'bg-red-500': notification.type === 'error',
         'bg-blue-500': notification.type === 'info',
-        'bg-yellow-500': notification.type === 'warning' }
+        'bg-yellow-500': notification.type === 'warning'
+      }
     ]">
       {{ notification.message }}
     </div>
@@ -205,12 +236,13 @@ const calendarDays = computed(() => {
   return days;
 });
 
-const asignaturasOptions = computed(() => 
-  asignaturas.value.map(asignatura => ({
+const asignaturasOptions = computed(() => {
+  console.log('Calculando asignaturasOptions. Asignaturas base:', asignaturas.value);
+  return asignaturas.value.map(asignatura => ({
     label: asignatura.nombre,
     value: asignatura.id
-  }))
-);
+  }));
+});
 
 const importanceOptions = [
   { label: 'Baja', value: 'BAJA' },
@@ -299,7 +331,8 @@ const fetchRecordatorios = async () => {
       throw new Error('Error al obtener recordatorios');
     }
     const data = await response.json();
-    
+    console.log('Data recibida:', data);
+
     if (Array.isArray(data.eventos)) {
       recordatorios.value = data.eventos.map((evento: EventoResponse) => ({
         id: evento.id,
@@ -316,12 +349,13 @@ const fetchRecordatorios = async () => {
 
     if (Array.isArray(data.asignaturas)) {
       asignaturas.value = data.asignaturas;
+      console.log('Asignaturas almacenadas en ref:', asignaturas.value);
     } else {
       asignaturas.value = [];
       console.error('La respuesta de asignaturas no es un array:', data.asignaturas);
     }
   } catch (error) {
-    console.error('Error al obtener datos:', error);
+    console.error('Error en fetchRecordatorios:', error);
     showNotification('Error al cargar los datos. Por favor, intenta de nuevo más tarde.', 'error');
   }
 };
@@ -403,15 +437,15 @@ watch(currentDate, fetchRecordatorios);
   .calendar-container {
     padding: 0.5rem;
   }
-  
+
   .grid-cols-7 {
     grid-template-columns: repeat(7, minmax(0, 1fr));
   }
-  
+
   .text-2xl {
     font-size: 1.25rem;
   }
-  
+
   .p-4 {
     padding: 0.75rem;
   }

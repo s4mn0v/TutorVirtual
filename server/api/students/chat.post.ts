@@ -616,7 +616,7 @@ export default defineEventHandler(async (event) => {
         
         // Luego guardar la respuesta del asistente
         chatMessages.push({
-          role: 'assistant',
+          role: 'model',
           content: responseText,
           timestamp: new Date()
         })
@@ -715,7 +715,7 @@ export default defineEventHandler(async (event) => {
         })
         
         chatMessages.push({
-          role: 'assistant',
+          role: 'model',
           content: examples,
           timestamp: new Date()
         })
@@ -836,7 +836,7 @@ export default defineEventHandler(async (event) => {
       
       // Guardar la respuesta del asistente
       chatMessages.push({
-        role: 'assistant',
+        role: 'model',
         content: isCorrect 
           ? `Respuesta correcta: ${lastQuiz.correctAnswer}. ${lastQuiz.explanation}`
           : `Respuesta incorrecta. La respuesta correcta es ${lastQuiz.correctAnswer}. ${lastQuiz.explanation}`,
@@ -904,7 +904,7 @@ export default defineEventHandler(async (event) => {
         })
         
         chatMessages.push({
-          role: 'assistant',
+          role: 'model',
           content: `Aquí tienes un video sobre ${temaActual}: ${videoData.title} (https://www.youtube.com/watch?v=${videoData.videoId})`,
           timestamp: new Date()
         })
@@ -981,7 +981,7 @@ export default defineEventHandler(async (event) => {
         
         // No guardamos la respuesta correcta ni la explicación en el mensaje visible
         chatMessages.push({
-          role: 'assistant',
+          role: 'model',
           content: `Pregunta: ${quizData.question}\n\nOpciones:\nA) ${quizData.options[0]}\nB) ${quizData.options[1]}\nC) ${quizData.options[2]}\nD) ${quizData.options[3]}`,
           timestamp: new Date()
         })
@@ -1102,7 +1102,7 @@ export default defineEventHandler(async (event) => {
       })
       
       chatMessages.push({
-        role: 'assistant',
+        role: 'model',
         content: responseText,
         timestamp: new Date()
       })
