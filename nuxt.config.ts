@@ -9,13 +9,16 @@ export default defineNuxtConfig({
   modules: [
     "@nuxt/ui",
     "@nuxtjs/tailwindcss",
-    ["@prisma/nuxt", {
-      studio: false, // Desactivar Prisma Studio en desarrollo
-      client: {
-        autoRegister: false,
-        prismaPath: "node_modules/.prisma/client",
+    [
+      "@prisma/nuxt",
+      {
+        studio: false, // Desactivar Prisma Studio en desarrollo
+        client: {
+          autoRegister: false,
+          prismaPath: "node_modules/.prisma/client",
+        },
       },
-    }],
+    ],
   ],
   components: [
     {
@@ -70,7 +73,7 @@ export default defineNuxtConfig({
       rollupOptions: {
         output: {
           manualChunks: {
-            vendor: ["vue", "pinia", "supabase"],
+            vendor: ["vue"],
             prisma: ["@prisma/client"],
           },
         },
@@ -125,5 +128,5 @@ export default defineNuxtConfig({
     configPath: "~/tailwind.config.ts",
     exposeConfig: false, // Desactivar si no se necesita
     viewer: false, // Desactivar en producción
-  },
+  },
 });

@@ -1,5 +1,5 @@
 // server/api/auth/register.post.ts
-import { PrismaClient, Rol } from "@prisma/client";
+import { PrismaClient, Rol } from "@prisma/client/.prisma/client";
 import bcrypt from "bcryptjs";
 import { defineEventHandler, readBody, createError } from "h3";
 

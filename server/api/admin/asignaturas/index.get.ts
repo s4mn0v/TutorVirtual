@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma, Rol} from "@prisma/client";
+import { PrismaClient, Prisma, Rol} from "@prisma/client/.prisma/client";
 import { H3Event, defineEventHandler, getQuery } from "h3";
 
 const prisma = new PrismaClient();

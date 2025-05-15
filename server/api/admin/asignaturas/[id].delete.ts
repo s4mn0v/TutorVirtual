@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/.prisma/client";
 import { defineEventHandler, getRouterParam, createError } from "h3";
 
 const prisma = new PrismaClient();

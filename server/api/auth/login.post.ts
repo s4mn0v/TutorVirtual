@@ -1,5 +1,5 @@
 // server/api/auth/login.post.ts
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/.prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { defineEventHandler, readBody, createError } from "h3";

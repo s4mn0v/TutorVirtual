@@ -1,5 +1,5 @@
 // server/api/docente/eventos/index.get.ts
-import { PrismaClient, Rol } from "@prisma/client";
+import { PrismaClient, Rol } from "@prisma/client/.prisma/client";
 import { defineEventHandler, createError, getRequestHeader } from "h3";
 import jwt from "jsonwebtoken";
 
