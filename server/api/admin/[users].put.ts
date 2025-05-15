@@ -1,5 +1,5 @@
 // server/api/admin/[users].put.ts
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/.prisma/client";
 import * as bcrypt from "bcrypt";
 import { H3Event, defineEventHandler, readBody } from "h3"; // Import the necessary functions
 

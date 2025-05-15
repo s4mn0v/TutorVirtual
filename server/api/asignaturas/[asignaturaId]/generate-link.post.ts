@@ -1,5 +1,5 @@
 // server/api/asignaturas/[asignaturaId]/generate-link.post.ts
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/.prisma/client";
 import { v4 as uuidv4 } from "uuid";
 import { H3Event, defineEventHandler } from "h3"; // Import the necessary functions
 

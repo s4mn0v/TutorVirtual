@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/.prisma/client";
 import { defineEventHandler } from "h3";
 
 const prisma = new PrismaClient();

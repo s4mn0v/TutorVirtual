@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/.prisma/client";
 import { defineEventHandler, createError, getRequestHeaders } from "h3";
 import jwt from "jsonwebtoken";
 

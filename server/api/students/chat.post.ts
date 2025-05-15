@@ -1,6 +1,6 @@
 import { defineEventHandler, readBody } from "h3";
 import jwt from "jsonwebtoken";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/.prisma/client";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios";
 

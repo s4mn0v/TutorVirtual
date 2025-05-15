@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/.prisma/client";
 import { createClient } from "@supabase/supabase-js";
 import formidable from "formidable";
 import fs from "fs/promises";

@@ -1,5 +1,5 @@
 // server/api/docente/eventos/[id].delete.ts
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/.prisma/client";
 import { defineEventHandler, createError } from "h3";
 
 const prisma = new PrismaClient();
