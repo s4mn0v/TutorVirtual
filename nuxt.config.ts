@@ -15,7 +15,6 @@ export default defineNuxtConfig({
         studio: false, // Desactivar Prisma Studio en desarrollo
         client: {
           autoRegister: false,
-          prismaPath: "node_modules/.prisma/client",
         },
       },
     ],
